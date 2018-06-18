@@ -3,23 +3,24 @@ import numpy as np
 A, C, G, T = 0, 1, 2, 3
 int_to_char = {0:'A', 1:'C', 2:'G', 3:'T'}
 
-gapPen = -1 
+# scoring = np.array([[1,-1,-1,-1],
+#                     [-1,1,-1,-1],
+#                     [-1,-1,1,-1],
+#                     [-1,-1,-1,1]])
 
-# scoring = np.array([[10,-3,-1,-4],
-#                     [-3,9,-5,-0],
-#                     [-1,-5,7,-3],
-#                     [-4,-0,-3,8]])
+
+gapPen = -2 
 
 scoring = np.array([[3,-3,-3,-3],
                     [-3,3,-3,-3],
                     [-3,-3,3,-3],
                     [-3,-3,-3,3]])
 
-
 class AlignmentFinder(object):
     def __init__(self, seq1, seq2):
         self.seq1 = seq1
         self.seq2 = seq2
+        self.path = []
         # self.scoreGrid = None
 
     def findGlobalAlignment(self):
@@ -38,9 +39,9 @@ class AlignmentFinder(object):
         # Filling using the score matrix 
         for i in range(1, self.seq1.size+1):
             for j in range(1, self.seq2.size+1):
-                self.scoreGrid[i,j] = max(  self.scoreGrid[i-1, j-1] + self.__getScore__(i, j),
+                self.scoreGrid[i,j] = max( self.scoreGrid[i-1, j-1] + self.__getScore__(i, j),
                                     self.scoreGrid[i-1, j] + gapPen,
-                                    self.scoreGrid[i, j-1] + gapPen)
+                                    self.scoreGrid[i, j-1] + gapPen, 0 )
     def __getScore__(self, i, j):
         # we check it fin its score based on the matching(score) matrix we defined first and the i-1&j-1 
         return scoring[self.seq1[i-1], self.seq2[j-1]]
@@ -55,28 +56,35 @@ class AlignmentFinder(object):
         alignedPair= []
         i = self.seq1.size
         j = self.seq2.size
-        while i >0 or j>0:
-            if i >0 and j>0 and self.scoreGrid[i-1, j-1] + self.__getScore__(i, j) == self.scoreGrid[i,j]:
+        maxIdx = self.scoreGrid.argmax
+
+        while i >0 and j>0:
+            if self.scoreGrid[i-1, j-1] + self.__getScore__(i, j) == self.scoreGrid[i,j]:
                 alignedPair.append(self.__getAlignedPair__(i, j))
                 i -= 1
                 j -= 1
-            elif i >0 and self.scoreGrid[i-1, j] + gapPen == self.scoreGrid[i,j]:
+            elif self.scoreGrid[i-1, j] + gapPen == self.scoreGrid[i,j]:
                 alignedPair.append(self.__getAlignedPair__(i, 0))
                 i -= 1
             else:
                 alignedPair.append(self.__getAlignedPair__(0, j))
                 j -= 1
+        while i > 0:
+            alignedPair.append(self.__getAlignedPair__(i, 0))
+            i -= 1
+        while j > 0:
+            alignedPair.append(self.__getAlignedPair__(0, j))
+            j -= 1
         alignedPair.reverse()
         return alignedPair  
 
 if __name__ == "__main__":
-    # array1 = ['G', 'T', 'A', 'C', 'A', 'G', 'T','A']
-    # array2 = ['G', 'G', 'T', 'A', 'C', 'G', 'T']
+
     seq1 = np.array([T,A,C,G,G,G,C,C,C,G,C,T,A,C], dtype=np.int16)
     seq2 = np.array([T,A,G,C,C,C,T,A,T,C,G,G,T,C], dtype=np.int16)
     aligned = AlignmentFinder(seq1, seq2)
     alignedPairs = aligned.findGlobalAlignment()
 
     pairShaped = np.array( alignedPairs )
-    print( pairShaped)
-    # print( pairShaped[:,1])
+    print( pairShaped[:,0])
+    print( pairShaped[:,1])

@@ -13,8 +13,9 @@ Through this page we are going to submit our assignments and Projects
 
 1. *Ola Sarhan*
 2. *Doaa Mousa*
-3. *Bishoy Samy Boshra*
-4. *Mohamed Mostafa Abdallah*
+3. *Kirolos Momtaz*
+4. *Bishoy Samy Boshra*
+5. *Mohamed Mostafa Abdallah*
 
 **Instructor**:
 
@@ -22,16 +23,13 @@ Prof. ***Muhammad Rushdi***
 
 ## Projects
 
-We are planning to solve Schrodinger Equation using numerical methods
+Scientists are always interested in the DNA and the hidden information; the ones that are entangled in the sequences. For example, Computer Scientist who are trying to find different approaches to compress the DNA, built most of their algorithms on the alignment of the DNA to magnify the differences.
 
-1. [Presentation]({{ site.baseurl }}{% link presentation/slides.html %}){:target="_blank"}
+There are different algorithms from different families, we will explain the following:
 
-2. TODO: Report
-    > Report on the chosen Algorithm
+1. [Dynamic Programming]({{ site.baseurl }}{% link implementation/DP.md %}){:target="_blank"}
 
-3. TODO: Implementation source code
-
-    > We are planning to implement the technique using Python.
+2. [Divide and Conquer]({{ site.baseurl }}{% link implementation/DandC.md %}){:target="_blank"}
 
 ---
 

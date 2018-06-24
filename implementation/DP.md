@@ -70,6 +70,27 @@ we can find the score based on the elements of the two sequences
         return (n1, n2)
 ```
 
+In this part we trace back the score grid we calculated for the match or gap. 
+
+- The first condition : a match 
+    ```
+    IF( the value from of scoreGrid(previous i, previous j) plus the score value of match is equal to the current scoreGrid(i,j) ) {
+    the current elements are matched and pushed to the aligned array
+    }
+    ```
+- The second condition : a mismatch 
+    ```
+    IF( the value from of scoreGrid(previous i, current j) plus the score value of match is equal to the current scoreGrid(i,j) ) {
+    the element from the first sequences is pushed, while a gap is pushed in the second sequence
+    }
+    ```
+- The third condition : a mismatch 
+    ```
+    IF( the value from of scoreGrid( current i, previous j) plus the penalty for generating gap is equal to the current scoreGrid(i,j) ) {
+    A gap the first sequences is pushed, while the current element is pushed in the second sequences
+    }
+    ```
+
 ``` python
     def __traceback__(self):
         # Translate the score(matching) grid to matched pairs or gaps

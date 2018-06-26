@@ -31,6 +31,8 @@ There are different algorithms from different families, we will explain the foll
 
 2. [Divide and Conquer]({{ site.baseurl }}{% link implementation/DandC.md %}){:target="_blank"}
 
+3. [Greedy]({{ site.baseurl }}{% link implementation/greedy.md %}){:target="_blank"}s
+
 ---
 
 TODO:
